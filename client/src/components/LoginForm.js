@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [login, { error }] = useMutation(LOGIN_USER);
+  const [loginUser, { error }] = useMutation(LOGIN_USER);
   
   useEffect(() => {
     if (error) {
@@ -36,14 +36,14 @@ const LoginForm = () => {
       event.stopPropagation();
     }
     try {
-      const { response } = await login({
+      const { data } = await loginUser({
         variables: { ...userFormData },
       });
 
-      console.log(response);
-      Auth.login(response.login.token);
+      console.log(data);
+      Auth.loginUser(data.loginUser.token);
     } catch (err) {
-      console.error(err);
+      console.log(err);
     }
     
     // try {
@@ -62,7 +62,7 @@ const LoginForm = () => {
     // }
 
     setUserFormData({
-      username: '',
+      // username: '',
       email: '',
       password: '',
     });
