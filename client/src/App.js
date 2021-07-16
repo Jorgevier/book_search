@@ -6,53 +6,43 @@ import {
   createHttpLink,
 } from '@apollo/client';
 
-// import { setContext } from '@apollo/client/link/context';
+import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
-
-
-
-// const authLink = setContext((_, { headers }) => {
-// const token = localStorage.getItem('id_token');
-// return {
-//   headers: {
-//     ...headers,
-//     authorization: token ? `Bearer ${token}` : '',
+// const client = new ApolloClient({
+//   request: (operation) => {
+//     const token = localStorage.getItem('id_token');
+// console.log(token)
+//     operation.setContext({
+//       headers: {
+//         authorization: token ? `Bearer ${token}` : '',
+//       },
+//     });
 //   },
-// };
-// });
-const client = new ApolloClient({
-  request: (operation) => {
-    const token = localStorage.getItem('id_token');
-
-    operation.setContext({
-      headers: {
-        authorization: token ? `Bearer ${token}` : '',
-      },
-    });
-  },
-  // const httpLink = createHttpLink({
+  const httpLink = createHttpLink({
     uri: '/graphql',
     cache: new InMemoryCache(),
   });
-  // const authLink = setContext((_, { headers }) => {
-  //   const token = localStorage.getItem('id_token');
-  //   return {
-  //     headers: {
-  //       ...headers,
-  //       authorization: token ? `Bearer ${token}` : '',
-  //     },
-  //   };
-  // });
+  const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem('id_token');
+    console.log({token})
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    };
+  });
   
-  // const client = new ApolloClient({
-  //   link: authLink.concat(httpLink),
-  //   cache: new InMemoryCache(),
-  // });
+  const client = new ApolloClient({
+ 
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
 
 
 
