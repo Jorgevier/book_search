@@ -1,24 +1,22 @@
 import { gql } from 'graphql-tag';
 
 export const GET_ME = gql`
-  
-  {
-    me {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        _id
-        bookId
-        authors
-        image
-        link
-        title
-        description
-      }
+  query me {
+  me {
+    _id
+    username
+    email
+    bookCount
+    savedBooks {
+      bookId
+      authors
+      image
+      link
+      title
+      description            
     }
-  }
+}
+}
 `;
 // export const QUERY_USER = gql`
 //   query user($username: String!) {
