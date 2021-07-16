@@ -9,19 +9,26 @@ const resolvers = {
       const userData = await User.findOne({_id: context.user._id })
       //const userData = await User.findOne({ _id: args._id })
         .select('-__v -password');
-      // .populate('books')
+      // // .populate('books')
       return userData;
-      }
-      throw new AuthenticationError('You are not logged in')
-    },
+    }
   },
+
+  // users: async () => {
+  //     return await User.find().select('-__v -password').populate('savedBooks');
+  // },
+
+  // user: async (parent, { username }) => {
+  //     return await User.findOne({ username }).select('-__v -password').populate('savedBooks');
+  // }
+},
   Mutation: {
     addUser: async (parent, args) => {
-      try {
+      //try {
         const user = await User.create(args);
         const token = signToken(user); //problem with token
         return { token, user };
-      } catch (e) { console.log(e) }
+     // } catch (e) { console.log(e) }
     },
     loginUser: async (parent, { email, password }) => {
       const user = await User.findOne({ email }
